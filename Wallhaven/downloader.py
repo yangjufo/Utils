@@ -18,9 +18,7 @@ class Wallhaven():
         if self.link.find("&page") != -1:
             self.link = self.link[0:self.link.find('&page') + 1]
         self.n = int(input('Please input the number of pages to download:\n'))
-        self.nsfw = int(input('Please indicate whether to download NSFW wallpapers:\n1. YES, I will provide username and password\n2. NO\n'))
-        self.num = ''
-        self.date = ''
+        self.nsfw = int(input('Please indicate whether to download NSFW wallpapers:\n1. YES, I will provide username and password\n2. NO\n'))        
         self.pages = list(range(1, self.n + 1))
         self.dir_name = f'{self.pages[0]}-{self.pages[-1]}'
         self.header = { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36' }
@@ -84,8 +82,7 @@ class Wallhaven():
             if i == 1:
                 url = f'{self.link}&page'
             else:
-                url = f'{self.link}&page={i}'
-            print(url)
+                url = f'{self.link}&page={i}'            
             response = await session.get(url, headers=self.header)
             html = await response.text()
             bf = BeautifulSoup(html, 'lxml')
@@ -106,7 +103,7 @@ class Wallhaven():
     def write_url(self):        
         with open('all-url.txt', 'r') as f:
             all_list = f.read().splitlines()
-            print(f'Got urls for {len(all_list)} wallpapers')
+            print(f'Already have urls for {len(all_list)} wallpapers')
             for i in self.urls:
                 if i not in all_list:
                     self.unique_urls.append(i)
