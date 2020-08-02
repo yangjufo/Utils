@@ -20,7 +20,7 @@ class Wallhaven():
         self.n = int(input('Please input the number of pages to download:\n'))
         self.nsfw = int(input('Please indicate whether to download NSFW wallpapers:\n1. YES, I will provide username and password\n2. NO\n'))        
         self.pages = list(range(1, self.n + 1))
-        self.dir_name = f'{self.pages[0]}-{self.pages[-1]}'
+        self.dir_name = 'Wallpapers'
         self.header = { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36' }
         self.dir_path = os.path.abspath('.') + os.sep + self.dir_name + os.sep
         self.run()
@@ -110,10 +110,7 @@ class Wallhaven():
             print(f'Removed {len(self.urls)-len(self.unique_urls)} duplicate urls')
 
         if self.unique_urls:
-            with open('all-url.txt', 'a') as f:
-                for i in self.unique_urls:
-                    f.write(i + '\n')
-                print(f'Add {len(self.unique_urls)} urls')
+            print(f'Add {len(self.unique_urls)} urls')
         else:
             print('No new url found!')
 
@@ -155,6 +152,8 @@ class Wallhaven():
                                 pbar.update(len(chunk))
                     if fail:
                         self.failed.remove(url)
+                    with open('all-url.txt', 'a') as f:
+                        f.write(url + '\n')
                 except:
                     print(f'Failed to download：{name[-1]}')
                     if not fail:
